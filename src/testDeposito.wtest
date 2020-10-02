@@ -1,0 +1,31 @@
+import accesorios.*
+import bicicletas.*
+import deposito.*
+test "deposito" {
+
+	//bici1
+	const bici1 = new Bicicleta(rodado=28,largo=150,marca="Olmo",accesorios=[farolito])
+	//bici2
+	const canasto1 = new Canasto(volumen=8)
+	const morral1 = new MorralDeBici(largo=21,ojoDeGato=true)
+	const bici2 = new Bicicleta(rodado=26,largo=110,marca="Legnano",accesorios=[farolito,canasto1,morral1])
+	//bici3
+	const morral2 = new MorralDeBici(largo=6,ojoDeGato=false)
+	const bici3 = new Bicicleta(rodado=20,largo=90,marca="Legnano",accesorios=[morral2])
+	//bici4 para comparar en "bicisCompanieras()"
+	const bici4 = new Bicicleta(rodado=28,largo=140,marca="Olmo",accesorios=[farolito])
+	//deposito1
+	const deposito1 = new Depositos(bicis=[bici1,bici2,bici3])
+	assert.equals([bici1,bici2], deposito1.bicisRapidas())
+	assert.equals(#{"Olmo","Legnano"}, deposito1.marca())
+	assert.that(not deposito1.nocturno())
+	assert.that(deposito1.biciParaLlevar(10))
+	assert.that(not deposito1.biciParaLlevar(50))
+	assert.equals("Olmo", deposito1.marcaBiciMasRapida())
+	assert.equals(0, deposito1.cargaTotalBicisLargas())
+	assert.equals(0, deposito1.cantidadBicisSinAccesorios())
+	assert.equals([bici1],deposito1.bicisCompanieras(bici4))
+	//deposito2
+	const deposito2 = new Depositos(bicis=[bici1,bici2])
+	assert.that(deposito2.nocturno())
+}
